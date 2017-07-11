@@ -22,6 +22,7 @@ defmodule Ukulesa.Web do
       import Plug.Conn
       import Ukulesa.Web.Router.Helpers
       import Ukulesa.Web.Gettext
+      import Ukulesa.Web.Session
     end
   end
 
@@ -39,6 +40,7 @@ defmodule Ukulesa.Web do
       import Ukulesa.Web.Router.Helpers
       import Ukulesa.Web.ErrorHelpers
       import Ukulesa.Web.Gettext
+      import Ukulesa.Web.Session
     end
   end
 
