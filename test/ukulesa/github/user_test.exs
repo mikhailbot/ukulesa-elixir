@@ -20,7 +20,8 @@ defmodule Ukulesa.UserTest do
     auth_info = %{
       name: "Mikhail Delport",
       nickname: "mikhailbot",
-      email: "mikhail@delport.ca"
+      email: "mikhail@delport.ca",
+      avatar_url: "http://awesome.avatar"
     }
     result = Github.login_or_register_from_github(auth_info)
     assert {:ok, user} = result
@@ -31,7 +32,8 @@ defmodule Ukulesa.UserTest do
     auth_info = %{
       name: "Mikhail Delport",
       nickname: "mikhailbot",
-      email: "mikhail@delport.ca"
+      email: "mikhail@delport.ca",
+      avatar_url: "http://awesome.avatar"
     }
     Github.login_or_register_from_github(auth_info)
     result = Github.login_or_register_from_github(auth_info)

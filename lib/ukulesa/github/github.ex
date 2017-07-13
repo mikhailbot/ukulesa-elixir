@@ -7,6 +7,7 @@ defmodule Ukulesa.Github do
   alias Ukulesa.Repo
 
   alias Ukulesa.Github.User
+  alias Ukulesa.Github.Ama
 
   @doc """
   Creates a user.
@@ -49,5 +50,49 @@ defmodule Ukulesa.Github do
     |> cast(attrs, [:username, :email, :name, :avatar_url])
     |> validate_required([:username, :email, :name])
     |> unique_constraint(:username)
+  end
+
+
+  @doc """
+  Creates an ama.
+  ## Examples
+      iex> create_ama(%{field: value})
+      {:ok, %User{}}
+      iex> create_ama(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+  """
+  def create_ama(attrs \\ %{}) do
+    %Ama{}
+    |> ama_changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Gets a single ama.
+  Raises `Ecto.NoResultsError` if the Ama does not exist.
+  ## Examples
+      iex> get_ama!(123)
+      %User{}
+      iex> get_ama!(456)
+      ** (Ecto.NoResultsError)
+  """
+  def get_ama!(id), do: Repo.get!(Ama, id)
+
+  def get_ama_by_full_name(full_name), do: Repo.get_by(Ama, %{full_name: full_name})
+
+  def ignore_or_create_ama(%{full_name: full_name, owner_name: owner_name, owner_id: owner_id, avatar_url: avatar_url}) do
+    case get_ama_by_full_name(full_name) do
+      nil ->
+        create_ama(%{name: "ama", full_name: full_name, owner_name: owner_name, owner_id: owner_id, avatar_url: avatar_url})
+      ama ->
+        {:ok, ama}
+    end
+  end
+
+  defp ama_changeset(%Ama{} = ama, attrs) do
+    ama
+    |> cast(attrs, [:name, :full_name, :owner_name, :owner_id, :avatar_url])
+    |> validate_required([:full_name, :owner_name, :owner_id])
+    |> unique_constraint(:full_name)
   end
 end
