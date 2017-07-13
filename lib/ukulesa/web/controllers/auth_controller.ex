@@ -24,10 +24,10 @@ defmodule Ukulesa.Web.AuthController do
       # Of course we only have the one for now
       :github ->
         # We'll extract the name, nickname, and email from the auth info
-        with %{name: name, nickname: nickname, email: email} <- auth.info do
+        with %{name: name, nickname: nickname, email: email, urls: urls} <- auth.info do
           # Then we'll call a function that will either return an existing user
           # with this github email address or create and return a new user
-          case Github.login_or_register_from_github(%{name: name, nickname: nickname, email: email}) do
+          case Github.login_or_register_from_github(%{name: name, nickname: nickname, email: email, avatar_url: urls[:avatar_url]}) do
             {:ok, user} ->
               # If it succeeds, we'll put the current user id in the session and
               # redirect home.

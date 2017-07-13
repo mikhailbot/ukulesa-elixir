@@ -35,10 +35,10 @@ defmodule Ukulesa.Github do
 
   def get_user_by_username(username), do: Repo.get_by(User, %{username: username})
 
-  def login_or_register_from_github(%{nickname: nickname, name: name, email: email}) do
+  def login_or_register_from_github(%{nickname: nickname, name: name, email: email, avatar_url: avatar_url}) do
     case get_user_by_username(nickname) do
       nil ->
-        create_user(%{email: email, name: name, username: nickname})
+        create_user(%{email: email, name: name, username: nickname, avatar_url: avatar_url})
       user ->
         {:ok, user}
     end
@@ -46,7 +46,7 @@ defmodule Ukulesa.Github do
 
   defp user_changeset(%User{} = user, attrs) do
     user
-    |> cast(attrs, [:username, :email, :name])
+    |> cast(attrs, [:username, :email, :name, :avatar_url])
     |> validate_required([:username, :email, :name])
     |> unique_constraint(:username)
   end
